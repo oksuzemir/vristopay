@@ -2,9 +2,11 @@ import React from "react";
 import styles from "./HeroSection.module.css";
 import arrow from "../../assets/images/arrow.svg"; // Ensure the path is correct
 
+
 const HeroSection: React.FC = () => (
   <section className={styles.heroSection}>
-    <div className={styles.heroBg}><img src="/images/hero-bg.svg" alt="" /></div>
+    <div className={styles.heroBg}><img src={`${import.meta.env.BASE_URL}images/hero-bg.svg`} alt="" />
+</div>
     <div className="container">
         <div className={styles.heroContext}> 
              <h1>

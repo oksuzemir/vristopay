@@ -6,7 +6,7 @@ const Header: React.FC = () => (
     <div className="container">
       <div className={styles.heeaderLeft}>
         <div className={styles.heeaderLogo}>
-            <img src="/images/logo.svg" alt="" />
+            <img src={`${import.meta.env.BASE_URL}images/logo.svg`} alt="" />
         </div>
       </div>
       <div className={styles.heeaderRight}>
