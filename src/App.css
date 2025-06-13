@@ -1,0 +1,42 @@
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-size: 10px;
+  font-family: "Geist", sans-serif;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 1);
+}
+
+.container {
+  width: 100%;
+  padding: 0 60px;
+  margin: 0 auto;
+}
+
+.main-button {
+  position: relative;
+  padding: 20px 37px;
+  display: inline; /* veya display: inline-flex; */
+  background: linear-gradient(90deg, #c7e254, #c7e254);
+  flex: 0 0 auto;
+  width: auto;
+  align-self: flex-start;
+  border-radius: 56px;
+  color: #000;
+  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  z-index: 1;
+
+
+}
+
+.main-button span{
+  margin-left: 17px;
+}
