@@ -39,6 +39,9 @@
   height: 100%;
   top: 0;
   left: 0;
-  background: url("/images/colored-border.svg") no-repeat center center;
-    background-size: cover;
+  background: url("/images/colored-border.svg") ;
+  background-size: contain;
+  background-repeat: no-repeat;
+  
+    
 }
