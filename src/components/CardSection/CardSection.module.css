@@ -1,0 +1,74 @@
+.cardSection{
+    margin-top: 100px;
+    position: relative;
+    padding: 60px 0;
+    overflow: hidden;
+}
+
+.cardSection :global(.container) > h2{
+    font-size: clamp(4rem, 4vw, 6.4rem);
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.cardSectionContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.cardSectionItem{
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+    padding: 20px 66px;
+    max-width: 1200px;
+    height: 315px;
+    width: 100%;
+    border-radius: 30px;
+    z-index: 1;
+    background: linear-gradient(325.35deg, rgba(199, 226, 84, 0.1) 1.44%, rgba(199, 226, 84, 0.25) 98.56%);
+    border: 1px solid rgba(199, 226, 84, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+.cardSectionLeft h2{
+    font-size: clamp(2.4rem, 4vw, 3.8rem);
+    font-weight: 600;
+    margin-bottom: 20px;
+
+}
+
+.cardSectionLeft p{
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 400;
+    margin-top: -20px;
+    margin-bottom: 40px;
+    font-weight: 300;
+
+}
+
+.cardSection :global(.main-button){
+    padding: 15px 30px;
+}
+
+.cardSectionBg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.cardSectionBg img{
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    will-change: transform;
+    pointer-events: none;
+}
