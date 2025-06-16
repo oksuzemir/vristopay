@@ -3,8 +3,8 @@ import styles from "./DotGrid.module.css";
 
 const DOT_SIZE = 4;
 const DOT_GAP = 36;
-const BASE_HOVER_RADIUS = 80;   // Başlangıç küçük etki alanı
-const MAX_EXTRA_RADIUS = 100;   // Hızlı mouse için en fazla bu kadar genişler
+const BASE_HOVER_RADIUS = 80;
+const MAX_EXTRA_RADIUS = 100;
 const MAX_GROWTH = 4;
 
 const COLORS = ["rgba(199, 226, 84, 1)", "rgba(87, 62, 177, 1)"];
@@ -39,12 +39,14 @@ const DotGrid: React.FC = () => {
   const svgRef = useRef<SVGSVGElement>(null);
   const [mouseSpeed, setMouseSpeed] = useState(0);
 
+  // Parallax state
+  const [parallax, setParallax] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+
   // Noktaların hover'daki renk tipi ve sabit ana rengi
   const { dots, colorMap } = useMemo(() => {
     const d = generateDots(window.innerWidth, window.innerHeight);
     const cm: string[] = [];
     for (let i = 0; i < d.length; i++) {
-      // %55 renkli, %45 gri gibi bir oran; istersen değiştir
       if (Math.random() < 0.55) {
         cm.push(COLORS[Math.random() > 0.5 ? 1 : 0]);
       } else {
@@ -66,12 +68,29 @@ const DotGrid: React.FC = () => {
     const dx = mouse.x - prevMouse.x;
     const dy = mouse.y - prevMouse.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
-    setMouseSpeed(distance); // Frame başı piksel hareketi
+    setMouseSpeed(distance);
 
-    // 16ms sonra prevMouse'u güncelle (ortalama 60fps)
     const timeout = setTimeout(() => setPrevMouse(mouse), 16);
     return () => clearTimeout(timeout);
   }, [mouse]);
+
+  // Parallax effect (mouse hareketine göre)
+  useEffect(() => {
+    if (!mouse) {
+      setParallax({ x: 0, y: 0 });
+      return;
+    }
+    // Parallax factor: ekranın ortasından ne kadar uzaktaysan, o kadar kay
+    const center = { x: size.width / 2, y: size.height / 2 };
+    const relX = (mouse.x - center.x) / center.x; // -1 ile 1 arası
+    const relY = (mouse.y - center.y) / center.y;
+    // Maksimum kayma: 32px (ayarlayabilirsin)
+    const maxShift = 20;
+    setParallax({
+      x: relX * maxShift,
+      y: relY * maxShift,
+    });
+  }, [mouse, size]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const rect = svgRef.current?.getBoundingClientRect();
@@ -85,10 +104,10 @@ const DotGrid: React.FC = () => {
     setMouse(null);
     setPrevMouse(null);
     setMouseSpeed(0);
+    setParallax({ x: 0, y: 0 });
   };
 
   // Mouse hızına göre radius hesapla
-  // Hız 0-80 arası piksel/frame olarak normalize ediliyor
   const normalizedSpeed = Math.min(mouseSpeed, 80) / 80;
   const dynamicHoverRadius = BASE_HOVER_RADIUS + normalizedSpeed * MAX_EXTRA_RADIUS;
 
@@ -122,34 +141,42 @@ const DotGrid: React.FC = () => {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-      {dots.map((dot, idx) => {
-        let radius = dot.baseRadius;
-        let fill = GRAY;
+      <g
+        style={{
+          transform: `translate(${parallax.x}px, ${parallax.y}px)`,
+          transition: "transform 0.25s cubic-bezier(.42,0,.58,1)",
+          willChange: "transform",
+        }}
+      >
+        {dots.map((dot, idx) => {
+          let radius = dot.baseRadius;
+          let fill = GRAY;
 
-        if (mouse) {
-          const dist = Math.hypot(dot.x - mouse.x, dot.y - mouse.y);
-          if (dist < dynamicHoverRadius) {
-            const falloff = 1 - dist / dynamicHoverRadius;
-            if (idx === nearestIdx) {
-              radius += MAX_GROWTH;
-            } else {
-              radius += MAX_GROWTH * 0.6 * falloff;
+          if (mouse) {
+            const dist = Math.hypot(dot.x - mouse.x, dot.y - mouse.y);
+            if (dist < dynamicHoverRadius) {
+              const falloff = 1 - dist / dynamicHoverRadius;
+              if (idx === nearestIdx) {
+                radius += MAX_GROWTH;
+              } else {
+                radius += MAX_GROWTH * 0.6 * falloff;
+              }
+              fill = colorMap[idx];
             }
-            fill = colorMap[idx];
           }
-        }
 
-        return (
-          <circle
-            key={idx}
-            cx={dot.x}
-            cy={dot.y}
-            r={radius}
-            fill={fill}
-            style={{ transition: "r 0.18s, fill 0.2s" }}
-          />
-        );
-      })}
+          return (
+            <circle
+              key={idx}
+              cx={dot.x}
+              cy={dot.y}
+              r={radius}
+              fill={fill}
+              style={{ transition: "r 0.18s, fill 0.2s" }}
+            />
+          );
+        })}
+      </g>
     </svg>
   );
 };
