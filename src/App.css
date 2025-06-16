@@ -76,3 +76,37 @@ body {
 .main-button:hover span{
   filter: invert(1);
 }
+
+/* Scrollbar stilleri (tüm büyük tarayıcılar için uyumlu ve ince) */
+html {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #C7E254 #46338C; /* Firefox */
+}
+
+/* Chrome, Edge, Safari için */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  background: #46338C; /* Track rengi */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C7E254; /* Scrollbar kendisi */
+  border-radius: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #46338C;
+  border-radius: 7px;
+}
+
+/* Tüm selection'lar için (metin seçimi) */
+::selection {
+  background: #C7E254;
+  color: #46338C; /* Koyu arka planda okunabilirlik için */
+}
+
+::-moz-selection {
+  background: #C7E254;
+  color: #46338C;
+}

@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
-import styles from "./CardSection.module.css";
+import styles from "./CardSection2.module.css";
 import arrow from "../../assets/images/arrow.svg";
 
-const CardSection: React.FC = () => {
+const CardSection2: React.FC = () => {
   const bgRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const [revealed, setRevealed] = useState(false);
@@ -40,22 +40,19 @@ const CardSection: React.FC = () => {
       className={`${styles.cardSection} ${revealed ? styles.revealed : ""}`}
     >
       <div className={styles.cardSectionBg} ref={bgRef}>
-        <img src={`${import.meta.env.BASE_URL}images/card-section-bg.svg`} alt="" />
+        <img
+          src={`${import.meta.env.BASE_URL}images/card-section-bg.svg`}
+          alt=""
+        />
       </div>
       <div className="container">
-        <h2>
-          Your virtual crypto <br /> card ‍anytime, anywhere
-        </h2>
         <div className={styles.cardSectionContent}>
           <div className={styles.cardSectionItem}>
             <div className={styles.cardSectionLeft}>
-              <h2>
-                Virtual Card for <br />
-                Crypto Spending
-              </h2>
+              <h2>Crypto to Fiat Global Transfers</h2>
               <p>
-                Shop online instantly using your crypto balance with a <br />{" "}
-                secure virtual card.
+                Easily convert your crypto and send local currencies to
+                recipients <br /> worldwide—fast, secure, and hassle-free.
               </p>
               <a href="#" className="main-button">
                 More Info{" "}
@@ -66,17 +63,17 @@ const CardSection: React.FC = () => {
             </div>
             <div className={styles.cardSectionRight}>
               <img
-                src={`${import.meta.env.BASE_URL}images/green-credit.svg`}
+                src={`${import.meta.env.BASE_URL}images/btodollar.svg`}
                 alt="Card Section"
               />
             </div>
           </div>
           <div className={styles.cardSectionItem}>
             <div className={styles.cardSectionLeft}>
-              <h2>Debit Card for <br /> Crypto Spending</h2>
+              <h2>Tokenization</h2>
               <p>
-                Enable seamless real-world spending by linking <br /> crypto
-                assets directly to your debit card.
+                Turn real-world assets into secure, tradable digital tokens <br /> on
+                the blockchain.
               </p>
               <a href="#" className="main-button">
                 More Info{" "}
@@ -87,7 +84,7 @@ const CardSection: React.FC = () => {
             </div>
             <div className={styles.cardSectionRight}>
               <img
-                src={`${import.meta.env.BASE_URL}images/purple-credit.svg`}
+                src={`${import.meta.env.BASE_URL}images/tokenization.svg`}
                 alt="Card Section"
               />
             </div>
@@ -98,4 +95,4 @@ const CardSection: React.FC = () => {
   );
 };
 
-export default CardSection;
+export default CardSection2;

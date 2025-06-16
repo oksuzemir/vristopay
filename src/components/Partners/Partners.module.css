@@ -1,0 +1,147 @@
+.partners {
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+   transform: translateY(80px) scale(0.98);
+  opacity: 0;
+  transition:
+    transform 0.7s cubic-bezier(0.4,0,0.2,1),
+    opacity 0.7s cubic-bezier(0.4,0,0.2,1);
+  will-change: transform, opacity;
+}
+
+.partners.revealed {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.partnersBg {
+  position: absolute;
+  top: -60%;
+  left: 10%;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+  pointer-events: none;
+  object-fit: cover;
+}
+
+.partnersText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.partnersText h2 {
+  font-size: clamp(2rem, 2vw, 3.4rem);
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.partnersText p {
+  font-size: clamp(2rem, 2vw, 2rem);
+}
+
+.partners :global(.main-button) {
+  margin: 40px auto;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  background: radial-gradient(
+    102.2% 696.59% at 6.08% 50%,
+    #46338c 0%,
+    #573eb1 100%
+  );
+  color: #fff;
+}
+
+.partners :global(.main-button)::before {
+  background: linear-gradient(90deg, #c7e254, #c7e254);
+}
+
+.partners :global(.main-button):hover {
+  color: #111;
+}
+
+.partners :global(.main-button) span {
+  filter: invert(1);
+}
+
+.partners :global(.main-button):hover span {
+  filter: invert(0);
+}
+
+.partnersGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(200px, 1fr));
+  grid-template-rows: 200px;
+  margin-top: 50px;
+  margin-bottom: 120px;
+  justify-items: center;
+
+}
+
+.partnerItem {
+  background: radial-gradient(
+        350.34% 217.21% at 53% 2.54%,
+        rgba(87, 62, 177, 0.3) 0%,
+        rgba(0, 0, 0, 0) 100%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+    radial-gradient(
+      112.18% 112.18% at 49.83% -12.18%,
+      rgba(199, 226, 84, 0) 0%,
+      rgba(87, 62, 177, 0) 100%
+    );
+  /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */
+
+  display: grid;
+  place-items: center;
+  border-radius: 30px;
+  backdrop-filter: blur(5px);
+  width: 100%;
+  max-width: 250px;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  border: 1px solid rgba(134, 126, 162, .1);
+
+}
+
+.partnerItem:hover {
+  transform: translateY(-10px);
+  background: transparent;
+   transition: all 0.3s ease-in-out;
+}
+
+
+.partnerItem::before{
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 0%;
+    height: 0;
+    border-radius: 30px;
+    background: linear-gradient(325.35deg, rgba(199, 226, 84, 0.1) 1.44%, rgba(199, 226, 84, 0.25) 98.56%);
+    transition: all 0.3s ease-in-out;
+}
+
+.partnerItem:hover::before{
+    width: 100%;
+    height: 100%;
+     transition: all 0.3s ease-in-out;
+}
+
+.partnersContext,
+.partnersContext span {
+  text-align: right;
+  font-size: clamp(2rem, 2vw, 3.8rem);
+}
+
+.partnersContext span {
+  color: rgba(199, 226, 84, 1);
+  font-weight: 600;
+}

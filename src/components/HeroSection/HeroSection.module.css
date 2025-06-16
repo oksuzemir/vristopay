@@ -5,6 +5,7 @@
   height: 100dvh;
   display: flex;
   flex-direction: row;
+  user-select: none;
 }
 
 .heroSection :global(.container) {
