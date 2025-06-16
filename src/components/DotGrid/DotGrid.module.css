@@ -1,0 +1,8 @@
+.dotGrid {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  pointer-events: auto;
+  position: relative;
+  z-index: 1;
+}

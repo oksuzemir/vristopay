@@ -2,10 +2,11 @@
   position: relative;
   overflow: hidden;
   width: 100%;
-  height: 100dvh;
+  height: 96dvh;
   display: flex;
   flex-direction: row;
   user-select: none;
+  isolation: isolate;
 }
 
 .heroSection :global(.container) {
@@ -14,6 +15,13 @@
   justify-content: center;
   align-items: left;
   padding-top: 10dvh;
+  position: relative;
+  pointer-events: none;
+
+}
+
+.heroSection :global(.main-button){
+  pointer-events: auto;
 }
 
 .heroBg {
@@ -31,16 +39,15 @@
   height: 100%;
   object-fit: cover;
     will-change: transform;
-  pointer-events: none;
-
-}
-
-.heroContext{
-  position: relative;
-  z-index: 1;
 
 
 }
+
+
+.heroDots{
+  z-index: 0;
+}
+
 
 
 .heroSection h1 {
@@ -54,4 +61,32 @@
   margin-top: 49px;
   margin-bottom: 85px;
   width: 60%;
+}
+
+
+.heroContext {
+  position: relative;
+  z-index: 1; 
+  display: inline-flex;  
+  flex-direction: column;  
+  pointer-events: auto; 
+  pointer-events: none;
+
+
+  
+}
+/* Mobilde DotGrid'i gizle, heroBg'yi göster */
+@media (max-width: 767px) {
+  .heroDots {
+    display: none !important;
+  }
+  .heroBg {
+    display: block !important;
+  }
+}
+/* Masaüstünde heroBg'yi gizle */
+@media (min-width: 768px) {
+  .heroBg {
+    display: none !important;
+  }
 }
