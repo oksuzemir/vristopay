@@ -53,6 +53,7 @@
 .heroSection h1 {
   font-size: clamp(6rem, 4vw, 8.8rem);
   font-weight: 600;
+  width: 700px;
 }
 
 .heroSection p {
@@ -60,7 +61,7 @@
   font-weight: 400;
   margin-top: 49px;
   margin-bottom: 85px;
-  width: 60%;
+  width: 680px;
 }
 
 
@@ -75,18 +76,37 @@
 
   
 }
+@media (max-width: 940px) {
+.heroSection h1 {
+  font-size: 4rem;
+  width: 380px;
+}
+.heroSection p {
+  font-size: 2rem;
+  width: 350px;
+
+}
+}
+
+@media (max-width: 450px) {
+  .heroSection{
+    height: 90dvh;
+  }
+.heroSection h1 {
+  font-size: 3rem;
+  width: 100%;
+
+}
+.heroSection p {
+  font-size: 1.6rem;
+  width: 100%;
+  margin-top: 20px;
+
+}
+
+.heroSection :global(.main-button){
+  margin-top: -50px;
+}
+
+}
 /* Mobilde DotGrid'i gizle, heroBg'yi göster */
-@media (max-width: 767px) {
-  .heroDots {
-    display: none !important;
-  }
-  .heroBg {
-    display: block !important;
-  }
-}
-/* Masaüstünde heroBg'yi gizle */
-@media (min-width: 768px) {
-  .heroBg {
-    display: none !important;
-  }
-}

@@ -1,13 +1,22 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./HeroSection.module.css";
 import arrow from "../../assets/images/arrow.svg";
 import DotGrid from "./../DotGrid/DotGrid";
 
 const HeroSection: React.FC = () => {
   const bgRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const checkMobile = () => {
+      setIsMobile(window.matchMedia("(max-width: 767px)").matches);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
     if (!isMobile) return;
     const handleScroll = () => {
       if (bgRef.current) {
@@ -17,7 +26,7 @@ const HeroSection: React.FC = () => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isMobile]);
 
   return (
     <section className={styles.heroSection}>
@@ -35,29 +44,19 @@ const HeroSection: React.FC = () => {
         <DotGrid />
       </div>
 
-      <div className={styles.heroBg} ref={bgRef}>
-        <img
-          className={styles.heroImg}
-          src={`${import.meta.env.BASE_URL}images/hero-bg.svg`}
-          alt=""
-        />
-      </div>
+   
+      
 
-      {/* ÇÖZÜM: container'ı inline-flex ve fit-content yapıyoruz! */}
-      <div
-        className="container"
-       
-      >
+      <div className="container">
         <div className={styles.heroContext}>
           <h1>
             Bring your crypto,
-            <br />
             to the real world
           </h1>
           <p>
-            With VristoPay’s secure wallet and seamless debit card integration, you <br />
-            can store, swap, stake, and spend your crypto effortlessly. Experience <br />
-            the power of decentralized applications and take control of your <br />
+            With VristoPays secure wallet and seamless debit card integration, you
+            can store, swap, stake, and spend your crypto effortlessly. Experience
+            the power of decentralized applications and take control of your
             financial freedom — all in one place.
           </p>
           <a href="#" className="main-button">

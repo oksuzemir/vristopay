@@ -77,6 +77,20 @@ body {
   filter: invert(1);
 }
 
+@media (max-width: 940px) {
+  .main-button{
+    padding: 15px 30px;
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+  }
+  
+}
+@media (max-width: 700px){
+.container {
+    padding: 0 20px;
+  }
+  
+}
+
 /* Scrollbar stilleri (tüm büyük tarayıcılar için uyumlu ve ince) */
 html {
   scrollbar-width: thin; /* Firefox */
