@@ -29,24 +29,17 @@
 .careersFirst {
   width: 100%;
   min-height: 250px;
-  background: radial-gradient(
-        350.34% 217.21% at 53% 2.54%,
-        rgba(199, 226, 84, 0.24) 0%,
-        rgba(0, 0, 0, 0) 100%
-      )
-      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
-    radial-gradient(
-      112.18% 112.18% at 49.83% -12.18%,
-      rgba(70, 51, 140, 0) 0%,
-      rgba(195, 168, 226, 0) 100%
-    );
+  backdrop-filter: blur(8px) saturate(143%);
+  -webkit-backdrop-filter: blur(5px) saturate(143%);
+  background-color: rgba(199, 226, 84, 0.58);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.125);
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border-radius: 30px;
-  border: 1px solid rgba(199, 226, 84, 0.2);
   transition: all 0.3s ease-in-out;
 }
 .careersFirst:hover{
@@ -107,6 +100,8 @@
   border: 1px solid rgba(134, 126, 162, .1);
   gap: 20px;
   transition: all 0.3s ease-in-out;
+  backdrop-filter: blur(5px) saturate(143%);
+  -webkit-backdrop-filter: blur(5px) saturate(143%);
 }
 
 

@@ -10,6 +10,7 @@
     opacity 0.7s cubic-bezier(0.4,0,0.2,1);
   will-change: transform, opacity;
  
+ 
 }
 .footer.revealed {
   transform: translateY(0);
@@ -96,6 +97,8 @@
       rgba(199, 226, 84, 0) 0%,
       rgba(87, 62, 177, 0) 100%
     );
+     backdrop-filter: blur(8px) saturate(143%);
+  -webkit-backdrop-filter: blur(18px) saturate(143%);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   border-radius: 30px;
   justify-content: space-between;

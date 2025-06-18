@@ -6,7 +6,6 @@ import Header from "./components/Header/Header";
 import HeroSection from "./components/HeroSection/HeroSection";
 import Partners from "./components/Partners/Partners";
 import Careers from "./components/Careers/Careers";
-import CardSection2 from "./components/CardSection2/CardSection2";
 
 function App() {
   return (
@@ -17,7 +16,6 @@ function App() {
       <CardSection />
       <Partners />
       <Careers/>
-      <CardSection2/>
       <Footer />
     </>
   );
