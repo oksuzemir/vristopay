@@ -184,7 +184,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 36px;
+  width: 30px;
   height: 36px;
   padding: 0;
   z-index: 110;
@@ -192,10 +192,10 @@
 }
 
 .bar {
-  height: 3px;
+  height: 2px;
   width: 100%;
   background: #fff;
-  margin: 5px 0;
+  margin: 3px 0;
   border-radius: 2px;
   transition: all 0.3s;
   display: block;
@@ -222,6 +222,10 @@
 }
 
 @media (max-width: 900px) {
+  .header{
+    display: flex;
+    align-items: center;
+  }
   .headerNav ul a {
     font-size: 1.6rem;
     text-transform: capitalize;
@@ -245,5 +249,16 @@
     display: block;
   }
 }
+@media (max-width: 450px) {
+  .headerLogo{
+  position: relative;
+  z-index: 5;
+  width: 170px;
+}
+.headerLogo img{
+  width: 100%;
+}
+}
+
 
 
