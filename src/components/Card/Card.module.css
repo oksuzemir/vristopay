@@ -29,3 +29,51 @@
   font-size: 2.2rem;
   text-align: center;
 }
+
+@media (max-width: 750px) {
+  .card {
+    min-height: auto;
+    height: 300px;
+    padding:40px 20px 20px 20px;
+  
+  }
+  .cardIcon {
+    width: 70px;
+    height: 70px;
+  }
+  .cardIcon svg {
+    width: 100%;
+    height: 100%;
+  }
+  .cardTitle {
+    font-size: 2.8rem;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    max-width: none;
+  }
+  .cardDesc {
+    max-width: 80%;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 500px) {
+ .cardIcon {
+    width: 50px;
+    height: 50px;
+  }
+   .cardTitle {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    max-width: none;
+  }
+  .cardDesc {
+    max-width: 80%;
+    font-size: 1.2rem;
+  }
+  .card{
+    height: 220px;
+    padding:20px 10px;
+  }
+}

@@ -44,17 +44,17 @@ const CardSection: React.FC = () => {
       </div>
       <div className="container">
         <h2>
-          Your virtual crypto <br /> card ‍anytime, anywhere
+          Your virtual crypto  card ‍anytime, anywhere
         </h2>
         <div className={styles.cardSectionContent}>
           <div className={styles.cardSectionItem}>
             <div className={styles.cardSectionLeft}>
               <h2>
-                Virtual Card for <br />
+                Virtual Card for 
                 Crypto Spending
               </h2>
               <p>
-                Shop online instantly using your crypto balance with a <br />{" "}
+                Shop online instantly using your crypto balance with a {" "}
                 secure virtual card.
               </p>
               <a href="#" className="main-button">
@@ -73,9 +73,9 @@ const CardSection: React.FC = () => {
           </div>
           <div className={styles.cardSectionItem}>
             <div className={styles.cardSectionLeft}>
-              <h2>Debit Card for <br /> Crypto Spending</h2>
+              <h2>Debit Card for  Crypto Spending</h2>
               <p>
-                Enable seamless real-world spending by linking <br /> crypto
+                Enable seamless real-world spending by linking  crypto
                 assets directly to your debit card.
               </p>
               <a href="#" className="main-button">

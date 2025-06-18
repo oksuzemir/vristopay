@@ -31,6 +31,7 @@ const HeroSection: React.FC = () => {
   return (
     <section className={styles.heroSection}>
       <div
+        ref={bgRef}
         className={styles.heroDots}
         style={{
           position: "absolute",
@@ -43,10 +44,6 @@ const HeroSection: React.FC = () => {
       >
         <DotGrid />
       </div>
-
-   
-      
-
       <div className="container">
         <div className={styles.heroContext}>
           <h1>
