@@ -7,7 +7,13 @@ const BASE_HOVER_RADIUS = 80;
 const MAX_EXTRA_RADIUS = 100;
 const MAX_GROWTH = 4;
 
-const COLORS = ["rgba(199, 226, 84, 1)", "rgba(87, 62, 177, 1)"];
+const GREEN_GRAD_ID = "greenDotGradient";
+const PURPLE_GRAD_ID = "purpleDotGradient";
+
+const COLORS = [
+  "green",   // yeşil nokta
+  "purple"   // mor nokta
+];
 const GRAY = "#222";
 
 type Dot = {
@@ -38,19 +44,18 @@ const DotGrid: React.FC = () => {
   const [size, setSize] = useState({ width: window.innerWidth, height: window.innerHeight });
   const svgRef = useRef<SVGSVGElement>(null);
   const [mouseSpeed, setMouseSpeed] = useState(0);
-
-  // Parallax state
   const [parallax, setParallax] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
-  // Noktaların hover'daki renk tipi ve sabit ana rengi
+  // Renk haritası: "green", "purple" veya "gray"
   const { dots, colorMap } = useMemo(() => {
     const d = generateDots(window.innerWidth, window.innerHeight);
     const cm: string[] = [];
     for (let i = 0; i < d.length; i++) {
-      if (Math.random() < 0.55) {
-        cm.push(COLORS[Math.random() > 0.5 ? 1 : 0]);
+      const rand = Math.random();
+      if (rand < 0.55) {
+        cm.push(COLORS[Math.random() > 0.5 ? 1 : 0]); // green veya purple
       } else {
-        cm.push(GRAY);
+        cm.push("gray");
       }
     }
     return { dots: d, colorMap: cm };
@@ -62,7 +67,6 @@ const DotGrid: React.FC = () => {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // Mouse hızını hesapla
   useEffect(() => {
     if (!mouse || !prevMouse) return;
     const dx = mouse.x - prevMouse.x;
@@ -74,17 +78,14 @@ const DotGrid: React.FC = () => {
     return () => clearTimeout(timeout);
   }, [mouse]);
 
-  // Parallax effect (mouse hareketine göre)
   useEffect(() => {
     if (!mouse) {
       setParallax({ x: 0, y: 0 });
       return;
     }
-    // Parallax factor: ekranın ortasından ne kadar uzaktaysan, o kadar kay
     const center = { x: size.width / 2, y: size.height / 2 };
-    const relX = (mouse.x - center.x) / center.x; // -1 ile 1 arası
+    const relX = (mouse.x - center.x) / center.x;
     const relY = (mouse.y - center.y) / center.y;
-    // Maksimum kayma: 32px (ayarlayabilirsin)
     const maxShift = 20;
     setParallax({
       x: relX * maxShift,
@@ -107,11 +108,9 @@ const DotGrid: React.FC = () => {
     setParallax({ x: 0, y: 0 });
   };
 
-  // Mouse hızına göre radius hesapla
   const normalizedSpeed = Math.min(mouseSpeed, 80) / 80;
   const dynamicHoverRadius = BASE_HOVER_RADIUS + normalizedSpeed * MAX_EXTRA_RADIUS;
 
-  // En yakın noktayı bul
   let nearestIdx = -1;
   let nearestDist = Infinity;
   if (mouse) {
@@ -141,6 +140,17 @@ const DotGrid: React.FC = () => {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
+      {/* Gradient tanımları */}
+      <defs>
+        <linearGradient id={GREEN_GRAD_ID} x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#a8e063" />
+          <stop offset="100%" stopColor="#56ab2f" />
+        </linearGradient>
+        <linearGradient id={PURPLE_GRAD_ID} x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#3c1053" />
+          <stop offset="100%" stopColor="#ad5389" />
+        </linearGradient>
+      </defs>
       <g
         style={{
           transform: `translate(${parallax.x}px, ${parallax.y}px)`,
@@ -152,16 +162,26 @@ const DotGrid: React.FC = () => {
           let radius = dot.baseRadius;
           let fill = GRAY;
 
-          if (mouse) {
-            const dist = Math.hypot(dot.x - mouse.x, dot.y - mouse.y);
-            if (dist < dynamicHoverRadius) {
-              const falloff = 1 - dist / dynamicHoverRadius;
-              if (idx === nearestIdx) {
-                radius += MAX_GROWTH;
+          // Nokta renkli ise hover'a tepki verir, gri ise sabit kalır
+          if (colorMap[idx] === "green" || colorMap[idx] === "purple") {
+            if (mouse) {
+              const dist = Math.hypot(dot.x - mouse.x, dot.y - mouse.y);
+              if (dist < dynamicHoverRadius) {
+                const falloff = 1 - dist / dynamicHoverRadius;
+                if (idx === nearestIdx) {
+                  radius += MAX_GROWTH;
+                } else {
+                  radius += MAX_GROWTH * 0.6 * falloff;
+                }
+                fill = colorMap[idx] === "green"
+                  ? `url(#${GREEN_GRAD_ID})`
+                  : `url(#${PURPLE_GRAD_ID})`;
               } else {
-                radius += MAX_GROWTH * 0.6 * falloff;
+                // Hover dışında renkli noktalar yine düz GRAY gözüksün ister misin? 
+                // Yoksa hover dışında da gradient mi olsun? 
+                // Eğer gradient istersen aşağıdaki satırı aç:
+                // fill = colorMap[idx] === "green" ? `url(#${GREEN_GRAD_ID})` : `url(#${PURPLE_GRAD_ID})`;
               }
-              fill = colorMap[idx];
             }
           }
 
