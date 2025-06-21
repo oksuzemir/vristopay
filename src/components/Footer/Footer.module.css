@@ -7,6 +7,8 @@
   transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1),
     opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform, opacity;
+  height: 100%;
+  border-radius: 30px;
 }
 .footer.revealed {
   transform: translateY(0);
@@ -144,7 +146,9 @@
   color: #fff;
   border-top: 1px solid rgba(199, 226, 84, 0.5);
   width: 100%;
-  padding-top: 40px;
+  padding-top: 30px;
+  padding-left: 60px;
+  padding-bottom: 20px;
   grid-column: span 4;
 }
 @media (max-width: 1450px) {
@@ -179,6 +183,7 @@
   .footer {
     margin-bottom: 0;
     transform: translateY(0);
+        height: 135vh;
     opacity: 1;
   }
   .footerInput {
@@ -203,7 +208,8 @@
     padding: 0 10px;
   }
   .footerLinks {
-    height: 120vh;
+    height: 100%;
+
     justify-content: center;
     align-items: center;
     padding: 30px 20px;
@@ -244,7 +250,7 @@
     left: 0;
     width: 100%;
     height: 100px;
-   background: url(images/logo.svg) no-repeat center center;
+   background: url(/images/logo.svg) no-repeat center center;
     }
   .footerLinks .footerLinkItem:nth-child(4) {
     padding-bottom: 100px;
@@ -329,7 +335,10 @@
   .footerCopy {
     padding-left: 20px;
     padding-bottom: 20px;
-
+    position: absolute;
+    bottom: 105px;
+    left: 0;
+    width: 100%;
     border-top: 0;
   }
   .footerCopy::before {
