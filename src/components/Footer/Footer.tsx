@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import styles from "./Footer.module.css";
 
 const Footer: React.FC = () => {
@@ -7,17 +7,47 @@ const Footer: React.FC = () => {
   const bg1Ref = useRef<HTMLDivElement>(null);
   const bg2Ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!footerRef.current) return;
-      const rect = footerRef.current.getBoundingClientRect();
-      if (rect.top < window.innerHeight) {
-        setRevealed(true);
-      } else {
-        setRevealed(false);
-      }
+  // Son scroll pozisyonunu tut
+  const lastScrollY = useRef(typeof window !== "undefined" ? window.scrollY : 0);
 
-      // Parallax BG effect
+  useEffect(() => {
+    // İlk render'da footer görünüyorsa hemen reveal et
+    if (footerRef.current) {
+      const rect = footerRef.current.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        setRevealed(true);
+      }
+    }
+
+    let revealedOnce = false;
+    const observer = new window.IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !revealedOnce) {
+          const bounding = entry.boundingClientRect;
+          const fromTop = bounding.top < window.innerHeight && bounding.top > 0;
+          const scrollDown = window.scrollY > lastScrollY.current;
+          if (fromTop && scrollDown) {
+            setRevealed(true);
+            revealedOnce = true;
+            if (footerRef.current) observer.unobserve(footerRef.current);
+          }
+        }
+        lastScrollY.current = window.scrollY;
+      },
+      { threshold: 0.15 }
+    );
+    if (footerRef.current) observer.observe(footerRef.current);
+
+    return () => {
+      if (footerRef.current) observer.unobserve(footerRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Parallax BG effect (sadece revealed olduktan sonra çalışır)
+  useEffect(() => {
+    if (!revealed) return;
+    const handleScroll = () => {
       const scrollY = window.scrollY;
       if (bg1Ref.current) {
         bg1Ref.current.style.transform = `translateY(${scrollY * 0.1}px)`;
@@ -26,11 +56,9 @@ const Footer: React.FC = () => {
         bg2Ref.current.style.transform = `translateY(${scrollY * 0.2}px)`;
       }
     };
-
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // check on mount
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [revealed]);
 
   return (
     <div

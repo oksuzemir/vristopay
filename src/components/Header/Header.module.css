@@ -15,7 +15,7 @@
 }
 
 .invert img {
-  filter: invert(1);
+  filter: invert(0);
 }
 .scroll {
   padding-top: 20px;
@@ -127,41 +127,76 @@
 .mobileMenu {
   position: fixed;
   top: 0;
-  right: -100vw;
+  right: -200vw;
   width: 100vw;
   height: 100vh;
-  background: #fff;
-  z-index: 2;
+   background: #111 ;
+  z-index: 3;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   transition: right 0.35s cubic-bezier(.86,0,.07,1);
   padding: 0;
+  isolation: isolate;
+
 }
+.mobileMenu::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("/images/mobile-menu.png") no-repeat center center;
+  background-size: cover;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+/* pulse animation*/
+
+
 .mobileMenu.open {
   right: 0;
 }
 
 .mobileMenu ul {
   list-style: none;
-  
-  margin-top: 100px;
+  margin-top: 0px;
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  align-items: center;
+  gap: 50px;
+  width: 100%;
+}
+.mobileMenu ul li{
+   width: 100%;
 }
 .mobileMenu li a {
-  color: #111;
-  font-size: 1.4rem;
+  color: #fff;
+  font-size: 3rem;
   font-weight: 500;
   text-decoration: none;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 20px 10px;
+  position: relative;
 }
+.mobileMenu li a:hover{
+  color: #c7e254;
+  transition: all 0.4s ease-in-out;
+}
+
 .mobileMenu .contactBtn {
-  background: #efefef;
-  color: #333;
+ 
+  color: #fff;
   border-radius: 22px;
   padding: 10px 20px;
   font-size: 1.1rem;
+  position: relative;
 }
 
 
@@ -208,7 +243,7 @@
   left: 8px;
   right: 8px;
   height: 3px;
-  background: #222;
+  background: #fff;
   border-radius: 2px;
   top: 16px;
   width: 20px;
@@ -248,6 +283,17 @@
   .mobileMenuBtn {
     display: block;
   }
+  .mobileMenu .contactBtn{
+    padding:20px  10px;
+    font-size: 3rem;
+    border-radius: 0;
+  }
+  .mobileMenu .contactBtn::before,
+  .mobileMenu .contactBtn::after {
+  
+   display: none;
+  
+}
 }
 @media (max-width: 450px) {
   .headerLogo{

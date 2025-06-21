@@ -10,24 +10,32 @@ const AboutUs: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const [revealed, setRevealed] = useState(false);
 
-  // Parallax BG effect
-  useEffect(() => {
-    const handleScroll = () => {
-      if (bgRef.current) {
-        const offset = window.scrollY * 0.3; // Parallax hızı
-        bgRef.current.style.transform = `translateY(${offset}px)`;
-      }
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // Scroll direction state
+  const lastScrollY = useRef(typeof window !== "undefined" ? window.scrollY : 0);
 
-  // Reveal on scroll (Intersection Observer)
   useEffect(() => {
+    // Sayfa ilk açıldığında component görünüyorsa hemen reveal et
+    if (sectionRef.current) {
+      const bounding = sectionRef.current.getBoundingClientRect();
+      if (bounding.top < window.innerHeight && bounding.bottom > 0) {
+        setRevealed(true);
+      }
+    }
+
+    let revealedOnce = false;
     const observer = new window.IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) setRevealed(true);
-        else setRevealed(false);
+        if (entry.isIntersecting && !revealedOnce) {
+          const bounding = entry.boundingClientRect;
+          const fromTop = bounding.top < window.innerHeight && bounding.top > 0;
+          const scrollDown = window.scrollY > lastScrollY.current;
+          if (fromTop && scrollDown) {
+            setRevealed(true);
+            revealedOnce = true;
+            if (sectionRef.current) observer.unobserve(sectionRef.current);
+          }
+        }
+        lastScrollY.current = window.scrollY;
       },
       { threshold: 0.15 }
     );
@@ -35,7 +43,21 @@ const AboutUs: React.FC = () => {
     return () => {
       if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Parallax effect (revealed true olmadan çalışmasın)
+  useEffect(() => {
+    if (!revealed) return;
+    const handleScroll = () => {
+      if (bgRef.current) {
+        const offset = window.scrollY * 0.3;
+        bgRef.current.style.transform = `translateY(${offset}px)`;
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [revealed]);
 
   return (
     <section
@@ -55,7 +77,7 @@ const AboutUs: React.FC = () => {
           <Card
             icon={<DollarIcon className={styles.usersIcon} />}
             title="$16 Trillion in Transactions"
-            description="Over $16 trillion in crypto transactions processed in 2023.The crypto economy is booming with real, unstoppable momentum."
+            description="Over $16 trillion in crypto transactions processed in 2023. The crypto economy is booming with real, unstoppable momentum."
           />
           <Card
             icon={<UsersIcon className={styles.usersIcon} />}

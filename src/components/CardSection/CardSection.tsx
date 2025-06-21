@@ -7,8 +7,9 @@ const CardSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const [revealed, setRevealed] = useState(false);
 
-  // Parallax BG effect
+  // Parallax BG effect (sadece revealed olduktan sonra çalışır)
   useEffect(() => {
+    if (!revealed) return;
     const handleScroll = () => {
       const scrollY = window.scrollY;
       if (bgRef.current) {
@@ -17,14 +18,33 @@ const CardSection: React.FC = () => {
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [revealed]);
 
-  // Reveal on scroll (Intersection Observer)
+  // İlk render'da görünüyorsa revealed'ı true yap, yoksa sadece ilk aşağıya scroll ile reveal
+  const lastScrollY = useRef(typeof window !== "undefined" ? window.scrollY : 0);
   useEffect(() => {
+    // İlk render'da component görünüyorsa hemen reveal et
+    if (sectionRef.current) {
+      const bounding = sectionRef.current.getBoundingClientRect();
+      if (bounding.top < window.innerHeight && bounding.bottom > 0) {
+        setRevealed(true);
+      }
+    }
+
+    let revealedOnce = false;
     const observer = new window.IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) setRevealed(true);
-        else setRevealed(false);
+        if (entry.isIntersecting && !revealedOnce) {
+          const bounding = entry.boundingClientRect;
+          const fromTop = bounding.top < window.innerHeight && bounding.top > 0;
+          const scrollDown = window.scrollY > lastScrollY.current;
+          if (fromTop && scrollDown) {
+            setRevealed(true);
+            revealedOnce = true;
+            if (sectionRef.current) observer.unobserve(sectionRef.current);
+          }
+        }
+        lastScrollY.current = window.scrollY;
       },
       { threshold: 0.2 }
     );
@@ -32,6 +52,7 @@ const CardSection: React.FC = () => {
     return () => {
       if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -54,7 +75,7 @@ const CardSection: React.FC = () => {
                 Crypto Spending
               </h2>
               <p>
-                Shop online instantly using your crypto balance with a {" "}
+                Shop online instantly using your crypto balance with a{" "}
                 secure virtual card.
               </p>
               <a href="#" className="main-button">

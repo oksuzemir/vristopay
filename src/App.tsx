@@ -1,3 +1,4 @@
+import  { useEffect } from "react";
 import "./App.css";
 import AboutUs from "./components/AboutUs/AboutUs";
 import CardSection from "./components/CardSection/CardSection";
@@ -8,6 +9,11 @@ import Partners from "./components/Partners/Partners";
 import Careers from "./components/Careers/Careers";
 
 function App() {
+  // Sayfa her yenilendiğinde otomatik olarak en üste kaydır
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <Header />
@@ -15,7 +21,7 @@ function App() {
       <AboutUs />
       <CardSection />
       <Partners />
-      <Careers/>
+      <Careers />
       <Footer />
     </>
   );

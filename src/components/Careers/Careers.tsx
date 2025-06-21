@@ -7,8 +7,9 @@ const Careers: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const [revealed, setRevealed] = useState(false);
 
-  // Parallax background effect
+  // Parallax background effect (only works after reveal)
   useEffect(() => {
+    if (!revealed) return;
     const handleScroll = () => {
       if (bgRef.current) {
         const offset = window.scrollY * 0.17; // Parallax speed
@@ -17,13 +18,33 @@ const Careers: React.FC = () => {
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [revealed]);
 
-  // Reveal animation when in viewport
+  // Reveal animation: also reveal immediately if already visible on first render
+  const lastScrollY = useRef(typeof window !== "undefined" ? window.scrollY : 0);
   useEffect(() => {
+    // Reveal immediately if visible at mount
+    if (sectionRef.current) {
+      const bounding = sectionRef.current.getBoundingClientRect();
+      if (bounding.top < window.innerHeight && bounding.bottom > 0) {
+        setRevealed(true);
+      }
+    }
+
+    let revealedOnce = false;
     const observer = new window.IntersectionObserver(
       ([entry]) => {
-        setRevealed(entry.isIntersecting);
+        if (entry.isIntersecting && !revealedOnce) {
+          const bounding = entry.boundingClientRect;
+          const fromTop = bounding.top < window.innerHeight && bounding.top > 0;
+          const scrollDown = window.scrollY > lastScrollY.current;
+          if (fromTop && scrollDown) {
+            setRevealed(true);
+            revealedOnce = true;
+            if (sectionRef.current) observer.unobserve(sectionRef.current);
+          }
+        }
+        lastScrollY.current = window.scrollY;
       },
       { threshold: 0.15 }
     );
@@ -31,6 +52,7 @@ const Careers: React.FC = () => {
     return () => {
       if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

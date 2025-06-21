@@ -115,6 +115,51 @@
 .careersItem span{
     font-size: clamp(1.6rem, 4vw, 2.2rem);
     font-weight: 400;
-
+    
     color: #fff;
+}
+
+@media (max-width: 900px){
+.careersItem{
+  gap: 10px;
+  padding: 20px;
+}
+.careersItem span{
+  font-size: 14px ;
+
+}
+.careersItem img{
+  width: 40px;
+  height: 40px;
+ 
+}
+}
+
+@media (max-width: 700px){
+  .careersLast{
+    display: block;
+  
+  }
+  .careersItem {
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .careersFirst {
+    min-height: 200px;
+    text-align: center;
+    min-height: 50px;
+    padding: 5px;
+  }
+  .careersFirst h2{
+    font-size: 30px;
+  }
+
+  .careersFirst p{
+    font-size: 14px;
+  }
+
+.careers :global(.main-button) {
+  height: 40px;
+}
 }
