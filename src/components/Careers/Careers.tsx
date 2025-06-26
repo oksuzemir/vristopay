@@ -58,6 +58,7 @@ const Careers: React.FC = () => {
   return (
     <section
       ref={sectionRef}
+      id="careers"
       className={`${styles.careers} ${revealed ? styles.revealed : ""}`}
     >
       <div className={styles.careersBg} ref={bgRef}>

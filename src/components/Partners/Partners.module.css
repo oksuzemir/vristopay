@@ -99,7 +99,7 @@
   display: grid;
   place-items: center;
   border-radius: 30px;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(50px);
   width: 100%;
   max-width: 250px;
   position: relative;

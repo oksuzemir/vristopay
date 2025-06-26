@@ -8,6 +8,9 @@
   font-family: "Geist", sans-serif;
 }
 
+section{
+  padding: 100px 0;
+}
 
 body {
   padding: 0;
@@ -92,6 +95,10 @@ body {
   
 }
 @media (max-width: 700px){
+  section{
+  padding: 50px 0;
+}
+
 .container {
     padding: 0 20px;
   }
